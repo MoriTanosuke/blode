@@ -2,9 +2,8 @@
 /**
  * Module dependencies.
  */
-
-var express = require('express')
-  , routes = require('./routes')
+var express = require('express');
+var routes = require('./routes')
 
 var app = module.exports = express.createServer();
 
@@ -31,10 +30,12 @@ app.configure('production', function(){
 
 // Routes
 
-app.get('/blog/:year/:month/:day/', function(req, res){ res.render('blog', { title: 'Entries for ' + req.params.year + "-" + req.params.month + "-" + req.params.day }); });
-app.get('/blog/:year/:month/:day/:title', function(req, res){ res.render('entry', { title: req.params.title, body: 'no body here'}); });
-app.get('/', routes.index);
+app.get('/blog', routes.blog);
+app.get('/blog/:year/:month/:day/:title', routes.entry);
+app.get('/blog/:year/:month/:day', routes.list);
+app.get('/', routes.blog);
 app.get('*', function(req, res){ res.send('Uh, what?', 404); });
 
 app.listen(3000);
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
+
