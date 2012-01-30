@@ -16,8 +16,8 @@ app.configure(function(){
   app.use(express.session({secret: "keyboard cat"}));
   app.use(express.bodyParser());
   app.use(express.methodOverride());
-  app.use(app.router);
   app.use(express.static(__dirname + '/public'));
+  app.use(app.router);
 });
 
 app.configure('development', function(){
@@ -30,10 +30,8 @@ app.configure('production', function(){
 
 // Routes
 
-app.get('/blog', routes.blog);
-app.get('/blog/:year/:month/:day/:title', routes.entry);
-app.get('/blog/:year/:month/:day', routes.list);
-app.get('/', routes.blog);
+app.get('/', routes.list);
+app.get('/:year/:month/:day/:title', routes.entry);
 app.get('*', function(req, res){ res.send('Uh, what?', 404); });
 
 app.listen(3000);
